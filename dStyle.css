@@ -1,49 +1,58 @@
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
   background: #f0f2f5;
   color: #1e2c3a;
   line-height: 1.45;
 }
 
+/*HEADER NKO TOWTT*/
 .app-container {
-  max-width: 1400px;
   margin: 0 auto;
-  padding: 1.5rem 2rem;
 }
-
-
 .nbsc-header {
   background: linear-gradient(135deg, #071b89 0%, #0b348c 100%);
-  border-radius: 24px;
-  padding: 1.5rem 2rem;
-  margin-bottom: 1.8rem;
+  padding: 1.5rem 1.5rem;
+  margin-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
   color: white;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 .header-left {
   display: flex;
   align-items: center;
   gap: 1.2rem;
 }
+.logo-icon {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 10px;
+}
 .college-logo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255,255,255,0.12);
+  gap: 10px;
   padding: 0.6rem 1rem;
-  border-radius: 20px;
 }
 .logo-icon {
   font-size: 2rem;
@@ -62,27 +71,42 @@ body {
   font-size: 0.75rem;
   opacity: 0.85;
   margin-top: 4px;
+  color: yellow;
 }
 .header-right .semester-badge {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   padding: 0.6rem 1.2rem;
-  border-radius: 40px;
+  border-radius: 10px;
   text-align: center;
   font-size: 0.8rem;
   font-weight: 500;
 }
-.semester-badge span:first-child {
-  display: block;
+.logout-button {
+  background-color: #9a9594;
+  color: white;
+  border: none;
+  padding: 6px 18px;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  transition: background 0.2s;
 }
+.logout-button:hover {
+  background-color: #a03f30;
+}
+/*HEADER NKO TOWTT*/
 
+/*GRADING SECTION TOWT*/
 
 .grading-reference {
   background: #fff9ef;
-  border-radius: 20px;
   padding: 1rem 1.5rem;
   margin-bottom: 1.8rem;
   border: 1px solid #e8dcc8;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 .ref-title {
   font-weight: 700;
@@ -113,6 +137,7 @@ body {
   text-align: center;
 }
 
+/*INFORMATION ON BASTA*/
 
 .stats-grid {
   display: grid;
@@ -149,19 +174,21 @@ body {
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: #5d7c6b;
+  color: #5d5f7c;
   letter-spacing: 0.5px;
 }
 .stat-info p {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #145c46;
+  color: #14285c;
   line-height: 1.2;
 }
 .stat-info small {
   font-size: 0.65rem;
   color: #8aa0aa;
 }
+
+/*STUDENT INPUT INFO*/
 
 
 .form-section {
@@ -186,7 +213,7 @@ body {
 .form-header h2 {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #2c5f4a;
+  color: #2c3b5f;
 }
 .form-header p {
   font-size: 0.7rem;
@@ -208,7 +235,7 @@ body {
 .input-group label {
   font-size: 0.7rem;
   font-weight: 700;
-  color: #4a6b5a;
+  color: #4a546b;
   display: block;
   margin-bottom: 5px;
   letter-spacing: 0.3px;
@@ -224,7 +251,7 @@ body {
 }
 .input-group input:focus {
   outline: none;
-  border-color: #2c7a5c;
+  border-color: #2c477a;
   box-shadow: 0 0 0 3px rgba(44,122,92,0.1);
 }
 .hint {
@@ -250,7 +277,7 @@ body {
   font-size: 0.85rem;
 }
 .btn-register:hover {
-  background: #0f553f;
+  background: #102287;
   transform: scale(0.97);
 }
 .btn-cancel {
@@ -262,6 +289,7 @@ body {
   cursor: pointer;
 }
 
+/*tools*/
 
 .tools-bar {
   background: white;
@@ -433,21 +461,4 @@ td {
 @media (max-width: 780px) {
   .app-container { padding: 1rem; }
   .form-row { flex-direction: column; }
-}
-
-.logout-button {
-  background-color: #c25a4a;
-  color: white;
-  border: none;
-  padding: 6px 18px;
-  border-radius: 40px;
-  font-weight: 600;
-  font-size: 0.8rem;
-  cursor: pointer;
-  margin-left: 1rem;
-  margin-top: 1rem;
-  transition: background 0.2s;
-}
-.logout-button:hover {
-  background-color: #a03f30;
 }
