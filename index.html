@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Login - Live Background</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="weather-background" id="weatherBg">
+        <div class="sky" id="sky"></div>
+        <div class="clouds" id="clouds">
+            <div class="cloud cloud1">☁️</div>
+            <div class="cloud cloud2">☁️</div>
+            <div class="cloud cloud3">☁️</div>
+            <div class="cloud cloud4">☁️</div>
+        </div>
+        <div class="rain" id="rain"></div>
+        <div class="snow" id="snow"></div>
+        <div class="lightning" id="lightning"></div>
+        <div class="sun-rays" id="sunRays"></div>
+    </div>
+
+    <div class="container">
+        <div class="card glass-effect">
+            <div id="loginForm" class="form-container active">
+                <div class="logo">⛅</div>
+                <h2>Welcome Back</h2>
+                <p class="subtitle">Sign in to continue</p>
+                
+                <form id="login">
+                    <div class="input-group">
+                        <input type="email" id="loginEmail" placeholder="Email address" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
+                
+                <div id="loginError" class="message error"></div>
+                
+                <p class="switch-text">
+                    Don't have an account? 
+                    <a href="#" id="showRegisterBtn">Create Account</a>
+                </p>
+            </div>
+
+            <div id="registerForm" class="form-container">
+                <div class="logo">🌈</div>
+                <h2>Create Account</h2>
+                <p class="subtitle">Join us and check the weather</p>
+                
+                <form id="register">
+                    <div class="input-group">
+                        <input type="text" id="regName" placeholder="Full name" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="regEmail" placeholder="Email address" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="regPassword" placeholder="Password (min 6 characters)" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+                
+                <div id="registerError" class="message error"></div>
+                <div id="registerSuccess" class="message success"></div>
+                
+                <p class="switch-text">
+                    Already have an account? 
+                    <a href="#" id="showLoginBtn">Sign In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class WeatherBackground {
+            constructor() {
+                this.currentWeather = 'sunny';
+                this.init();
+            }
+
+            init() {
+                this.setupWeatherDetection();
+                this.startBackgroundAnimation();
+            }
+
+            setupWeatherDetection() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(async (position) => {
+                        const weather = await this.fetchRealWeather(position.coords.latitude, position.coords.longitude);
+                        this.updateBackground(weather);
+                    }, () => {
+                        this.setRandomWeather();
+                    });
+                } else {
+                    this.setRandomWeather();
+                }
+            }
+
+            async fetchRealWeather(lat, lon) {
+                try {
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    const weatherCode = data.current_weather.weathercode;
+                    return this.getWeatherTypeFromCode(weatherCode);
+                } catch (error) {
+                    return 'sunny';
+                }
+            }
+
+            getWeatherTypeFromCode(code) {
+                if (code === 0) return 'sunny';
+                if (code <= 2) return 'cloudy';
+                if (code === 3) return 'cloudy';
+                if (code <= 55) return 'rainy';
+                if (code <= 75) return 'snowy';
+                if (code >= 95) return 'stormy';
+                return 'sunny';
+            }
+
+            setRandomWeather() {
+                const weathers = ['sunny', 'cloudy', 'rainy', 'snowy', 'stormy'];
+                const random = weathers[Math.floor(Math.random() * weathers.length)];
+                this.updateBackground(random);
+            }
+
+            updateBackground(weather) {
+                this.currentWeather = weather;
+                const body = document.body;
+                
+                body.classList.remove('weather-sunny', 'weather-rainy', 'weather-snowy', 'weather-cloudy', 'weather-stormy');
+                
+                body.classList.add(`weather-${weather}`);
+                
+                this.triggerWeatherEffects(weather);
+            }
+
+            triggerWeatherEffects(weather) {
+                const rainContainer = document.getElementById('rain');
+                const snowContainer = document.getElementById('snow');
+                const lightning = document.getElementById('lightning');
+                const sunRays = document.getElementById('sunRays');
+                const clouds = document.getElementById('clouds');
+                
+                if (rainContainer) rainContainer.style.display = 'none';
+                if (snowContainer) snowContainer.style.display = 'none';
+                if (lightning) lightning.style.display = 'none';
+                if (sunRays) sunRays.style.display = 'none';
+          
+                switch(weather) {
+                    case 'rainy':
+                        if (rainContainer) {
+                            rainContainer.style.display = 'block';
+                            this.createRaindrops();
+                        }
+                        break;
+                    case 'snowy':
+                        if (snowContainer) {
+                            snowContainer.style.display = 'block';
+                            this.createSnowflakes();
+                        }
+                        break;
+                    case 'stormy':
+                        if (rainContainer) rainContainer.style.display = 'block';
+                        if (lightning) lightning.style.display = 'block';
+                        this.createRaindrops();
+                        this.startLightning();
+                        break;
+                    case 'sunny':
+                        if (sunRays) sunRays.style.display = 'block';
+                        break;
+                    case 'cloudy':
+                        break;
+                }
+            }
+
+            createRaindrops() {
+                const rainContainer = document.getElementById('rain');
+                if (!rainContainer) return;
+                
+                rainContainer.innerHTML = '';
+                for (let i = 0; i < 100; i++) {
+                    const raindrop = document.createElement('div');
+                    raindrop.className = 'raindrop';
+                    raindrop.style.left = Math.random() * 100 + '%';
+                    raindrop.style.animationDuration = 0.5 + Math.random() * 0.5 + 's';
+                    raindrop.style.animationDelay = Math.random() * 2 + 's';
+                    rainContainer.appendChild(raindrop);
+                }
+            }
+
+            createSnowflakes() {
+                const snowContainer = document.getElementById('snow');
+                if (!snowContainer) return;
+                
+                snowContainer.innerHTML = '';
+                for (let i = 0; i < 60; i++) {
+                    const snowflake = document.createElement('div');
+                    snowflake.className = 'snowflake';
+                    snowflake.textContent = '❄️';
+                    snowflake.style.left = Math.random() * 100 + '%';
+                    snowflake.style.animationDuration = 3 + Math.random() * 4 + 's';
+                    snowflake.style.animationDelay = Math.random() * 5 + 's';
+                    snowflake.style.fontSize = (10 + Math.random() * 15) + 'px';
+                    snowContainer.appendChild(snowflake);
+                }
+            }
+
+            startLightning() {
+                const lightning = document.getElementById('lightning');
+                if (!lightning) return;
+                
+                setInterval(() => {
+                    if (this.currentWeather === 'stormy') {
+                        lightning.style.opacity = '1';
+                        setTimeout(() => {
+                            lightning.style.opacity = '0';
+                        }, 100);
+                    }
+                }, 3000);
+            }
+
+            startBackgroundAnimation() {
+                const clouds = document.querySelectorAll('.cloud');
+                clouds.forEach((cloud, index) => {
+                    cloud.style.animation = `floatCloud ${15 + index * 5}s linear infinite`;
+                });
+            }
+        }
+
+        const weatherBg = new WeatherBackground();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
