@@ -100,71 +100,54 @@ function updateStatistics(filteredList) {
 
 // Complete Search Engine and Category Filter Implementation
 function renderTable() {
-  const tbody = document.getElementById("tableBody");
-  tbody.innerHTML = "";
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
 
-  // Perform operational filtration logic
-  const displayList = students.filter(s => {
-    const grade = convertToNBSCGrade(s.percentage);
-    
-    // Chip category filtering check
-    let matchesFilter = false;
-    if (currentFilter === "all") {
-      matchesFilter = true;
-    } else if (currentFilter === "1.0" && grade <= 1.5) {
-      matchesFilter = true;
-    } else if (currentFilter === "1.75" && grade > 1.5 && grade <= 2.0) {
-      matchesFilter = true;
-    } else if (currentFilter === "2.25" && grade > 2.0 && grade <= 2.75) {
-      matchesFilter = true;
-    } else if (currentFilter === "3.0" && grade === 3.0) {
-      matchesFilter = true;
-    } else if (currentFilter === "5.0" && grade === 5.0) {
-      matchesFilter = true;
-    }
-
-    // Input match string engine filtering check
-    const query = currentSearch.toLowerCase();
-    const matchesSearch = 
-      s.name.toLowerCase().includes(query) || 
-      s.course.toLowerCase().includes(query) || 
-      String(s.id).includes(query);
-
-    return matchesFilter && matchesSearch;
-  });
-
-  // Display data counts into panel indicators
-  updateStatistics(displayList);
-
-  if (displayList.length === 0) {
-    tbody.innerHTML = `
-      <tr class="empty-row">
-        <td colspan="7">🏔️ No matching student records found. Change filters or register a student. 🏔️</td>
-      </tr>`;
-    return;
-  }
-
-  displayList.forEach(s => {
-    const grade = convertToNBSCGrade(s.percentage);
-    const remarks = getRemarks(grade);
-    const categoryClass = getGradeCategory(grade);
-    
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${s.id}</td>
-      <td><strong>${s.name}</strong></td>
-      <td>${s.course}</td>
-      <td>${parseFloat(s.percentage).toFixed(1)}%</td>
-      <td><span class="nbsc-grade ${categoryClass}">${grade.toFixed(2)}</span></td>
-      <td><span class="remarks-badge ${remarks.toLowerCase()}">${remarks}</span></td>
-      <td>
-        <button class="action-btn edit-btn" onclick="enterEditMode(${s.id})">⚙️ Edit</button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
+    students.forEach(s => {
+        const grade = convertToNBSCGrade(s.percentage);
+        const remarks = getRemarks(grade);
+        
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${s.id}</td>
+            <td>${s.name}</td>
+            <td>${s.course}</td>
+            <td>${s.percentage}%</td>
+            <td><span class="nbsc-grade ${getGradeCategory(grade)}">${grade.toFixed(2)}</span></td>
+            <td>${remarks}</td>
+            <td>
+                <button class="action-btn edit-btn" onclick="enterEditMode(${s.id})">Edit</button>
+                <button class="action-btn delete-btn" onclick="deleteStudent(${s.id})">Delete</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
 }
 
+// NEW: Function to handle the delete request
+async function deleteStudent(id) {
+    if (!confirm("Are you sure you want to delete this record?")) return;
+
+    try {
+        const response = await fetch('delete_student.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+            // Remove from local array and refresh table
+            students = students.filter(s => s.id !== id);
+            renderTable();
+        } else {
+            alert("Error: " + result.message);
+        }
+    } catch (error) {
+        console.error("Delete failed:", error);
+    }
+}
 // Handle Submissions (Inserts and Updates via standard JSON payload structures)
 async function addOrUpdateStudent() {
   const name = document.getElementById("studentName").value.trim();

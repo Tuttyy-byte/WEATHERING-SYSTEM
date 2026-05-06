@@ -462,3 +462,17 @@ td {
   .app-container { padding: 1rem; }
   .form-row { flex-direction: column; }
 }
+
+.delete-btn {
+  background: #c25a4a; /* NBSC Red-ish for Danger */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.delete-btn:hover {
+  opacity: 0.8;
+}
