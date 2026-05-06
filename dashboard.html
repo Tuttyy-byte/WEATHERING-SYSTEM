@@ -16,7 +16,6 @@
         <div class="nbsc-header">
             <div class="header-left">
                 <div class="college-logo">
-                    <!-- REPLACED EMOJI WITH IMAGE -->
                     <img src="cropped-NBSC_NewLogo_icon.png" alt="NBSC Logo" class="logo-icon" />
                 </div>
                 <div class="college-title">
@@ -27,6 +26,7 @@
 
             <div class="header-right">
                 <div class="semester-badge">
+                    <span id="userNameDisplay" style="margin-right: 15px; font-weight: 600; color: #fff;"></span>
                     <span>📅 2nd Semester</span>
                     <span>SY 2025-2026</span>
                 </div>
@@ -110,108 +110,106 @@
         </div>
 
 
-  <div class="form-section">
-      <div class="form-header">
-        <div class="form-icon">📝</div>
-        <div>
-          <h2>Student Record Registration</h2>
-          <p>Enroll new student • NBSC Official Form</p>
+        <div class="form-section">
+            <div class="form-header">
+                <div class="form-icon">📝</div>
+                <div>
+                    <h2>Student Record Registration</h2>
+                    <p>Enroll new student • NBSC Official Form</p>
+                </div>
+            </div>
+            <div class="form-body">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Student Name (Last, First Middle)</label>
+                        <input type="text" id="studentName" placeholder="e.g., Dela Cruz, Juan P." autocomplete="off" />
+                    </div>
+                    <div class="input-group">
+                        <label>Program / Course</label>
+                        <input type="text" id="studentSubject" placeholder="e.g., BS Education, BS Criminology"
+                            autocomplete="off" />
+                    </div>
+                    <div class="input-group">
+                        <label>Final Percentage (%)</label>
+                        <input type="number" id="studentGrade" placeholder="0 to 100" min="0" max="100" step="0.01" />
+                        <span class="hint">Converts to NBSC 1.0-5.0 grade</span>
+                    </div>
+                    <div class="form-buttons">
+                        <button id="addBtn" class="btn-register">
+                            ➕ Register Student
+                        </button>
+                        <button id="cancelEditBtn" class="btn-cancel" style="display: none">
+                            ✖ Cancel Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="form-body">
-        <div class="form-row">
-          <div class="input-group">
-            <label>Student Name (Last, First Middle)</label>
-            <input type="text" id="studentName" placeholder="e.g., Dela Cruz, Juan P." autocomplete="off" />
-          </div>
-          <div class="input-group">
-            <label>Program / Course</label>
-            <input type="text" id="studentSubject" placeholder="e.g., BS Education, BS Criminology"
-              autocomplete="off" />
-          </div>
-          <div class="input-group">
-            <label>Final Percentage (%)</label>
-            <input type="number" id="studentGrade" placeholder="0 to 100" min="0" max="100" step="0.01" />
-            <span class="hint">Converts to NBSC 1.0-5.0 grade</span>
-          </div>
-          <div class="form-buttons">
-            <button id="addBtn" class="btn-register">
-              ➕ Register Student
-            </button>
-            <button id="cancelEditBtn" class="btn-cancel" style="display: none">
-              ✖ Cancel Edit
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
 
 
-     <div class="tools-bar">
-      <div class="search-wrapper">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Search by name, course, or college ID..." />
-        <button id="clearSearchBtn" class="clear-search">Clear</button>
-      </div>
-      <div class="filter-wrapper">
-        <span class="filter-label">Filter by Grade:</span>
-        <div class="filter-chips" id="filterContainer">
-          <div data-filter="all" class="chip active">All</div>
-          <div data-filter="1.0" class="chip">1.0 - 1.5 (Excellent)</div>
-          <div data-filter="1.75" class="chip">1.75 - 2.0 (Good)</div>
-          <div data-filter="2.25" class="chip">2.25 - 2.75 (Fair)</div>
-          <div data-filter="3.0" class="chip">3.0 (Passing)</div>
-          <div data-filter="5.0" class="chip">5.0 (Failed)</div>
+        <div class="tools-bar">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search by name, course, or college ID..." />
+                <button id="clearSearchBtn" class="clear-search">Clear</button>
+            </div>
+            <div class="filter-wrapper">
+                <span class="filter-label">Filter by Grade:</span>
+                <div class="filter-chips" id="filterContainer">
+                    <div data-filter="all" class="chip active">All</div>
+                    <div data-filter="1.0" class="chip">1.0 - 1.5 (Excellent)</div>
+                    <div data-filter="1.75" class="chip">1.75 - 2.0 (Good)</div>
+                    <div data-filter="2.25" class="chip">2.25 - 2.75 (Fair)</div>
+                    <div data-filter="3.0" class="chip">3.0 (Passing)</div>
+                    <div data-filter="5.0" class="chip">5.0 (Failed)</div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
 
         <div class="gradebook-table">
-      <div class="table-header">
-        <h3>📋 Official Class Record • Northern Bukidnon State College</h3>
-        <div class="legend">
-          <span><span class="legend-excellent"></span> 1.0-1.5</span>
-          <span><span class="legend-good"></span> 1.75-2.0</span>
-          <span><span class="legend-fair"></span> 2.25-2.75</span>
-          <span><span class="legend-pass"></span> 3.0</span>
-          <span><span class="legend-fail"></span> 5.0</span>
+            <div class="table-header">
+                <h3>📋 Official Class Record • Northern Bukidnon State College</h3>
+                <div class="legend">
+                    <span><span class="legend-excellent"></span> 1.0-1.5</span>
+                    <span><span class="legend-good"></span> 1.75-2.0</span>
+                    <span><span class="legend-fair"></span> 2.25-2.75</span>
+                    <span><span class="legend-pass"></span> 3.0</span>
+                    <span><span class="legend-fail"></span> 5.0</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Student Name</th>
+                            <th>Program / Course</th>
+                            <th>Percentage</th>
+                            <th>NBSC Grade</th>
+                            <th>Remarks</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr class="empty-row">
+                            <td colspan="7">
+                                🏔️ No student records found. Register a student to begin. 🏔️
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Student Name</th>
-              <th>Program / Course</th>
-              <th>Percentage</th>
-              <th>NBSC Grade</th>
-              <th>Remarks</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            <tr class="empty-row">
-              <td colspan="7">
-                🏔️ No student records found. Register a student to begin. 🏔️
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
 
-     <footer class="footer">
-      <p>
-        © Northern Bukidnon State College • Registrar's Office • Data stored
-        locally using browser localStorage
-      </p>
-      <p>
-        🔰 Grading System based on NBSC Student Handbook | CRUD Operations |
-        No Database Required --TUTTY
-      </p>
-    </footer>
+        <footer class="footer">
+            <p>
+                © Northern Bukidnon State College • Registrar's Office • Data synced securely with Cloud Database
+            </p>
+            <p>
+                🔰 Grading System based on NBSC Student Handbook | CRUD Operations | Connected to PHP Backend
+            </p>
+        </footer>
 
 
     </div>
