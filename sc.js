@@ -275,3 +275,14 @@ function init() {
   setFilter("all");
 }
 init();
+
+// Logout functionality
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    // Clear current user session
+    localStorage.removeItem("nbsc_current_user");
+    // Redirect to login page (adjust the filename if needed)
+    window.location.href = "index.html";
+  });
+}
